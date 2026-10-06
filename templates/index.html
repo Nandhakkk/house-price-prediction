@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HousePrice AI | Predict Your Property Value</title>
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- 1. NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <i class="fa-solid fa-house-chimney-window"></i> HousePrice <span>AI</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#predictor">Predictor</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h1>Predict Your House Value with <span>AI</span></h1>
+            <p>Our advanced Machine Learning model uses Linear Regression to estimate property values instantly based on key features.</p>
+            <a href="#predictor" class="btn btn-primary btn-large">Start Prediction <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="hero-image">
+            <div class="glass-card mockup-card">
+                <div class="mockup-header">
+                    <i class="fa-solid fa-circle" style="color:#ff5f56"></i>
+                    <i class="fa-solid fa-circle" style="color:#ffbd2e"></i>
+                    <i class="fa-solid fa-circle" style="color:#27c93f"></i>
+                </div>
+                <div class="mockup-body">
+                    <div class="mockup-chart"></div>
+                    <div class="mockup-lines">
+                        <div class="line line-1"></div>
+                        <div class="line line-2"></div>
+                        <div class="line line-3"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. FEATURES SECTION -->
+    <section id="features" class="features">
+        <div class="section-container">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-brain"></i></div>
+                    <h3>Machine Learning Prediction</h3>
+                    <p>Powered by Scikit-learn for accurate and reliable price predictions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3>Instant Results</h3>
+                    <p>Get immediate valuation estimates without waiting for manual appraisals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <h3>Simple Interface</h3>
+                    <p>Clean, intuitive design that makes property valuation accessible to everyone.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <h3>Responsive Design</h3>
+                    <p>Works seamlessly across all your devices, from desktop to mobile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. PREDICTOR SECTION -->
+    <section id="predictor" class="predictor">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Property Value Predictor</h2>
+                <p>Enter the details of the property below to get an instant AI-powered estimate.</p>
+            </div>
+            
+            <div class="predictor-layout">
+                <!-- Main Prediction Form -->
+                <div class="glass-card predictor-card" id="form-card">
+                    <form id="prediction-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="area"><i class="fa-solid fa-maximize"></i> Area (sq ft)</label>
+                                <input type="number" id="area" name="area" min="1" required placeholder="e.g. 1500">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bedrooms"><i class="fa-solid fa-bed"></i> Bedrooms</label>
+                                <input type="number" id="bedrooms" name="bedrooms" min="1" required placeholder="e.g. 3">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="bathrooms"><i class="fa-solid fa-bath"></i> Bathrooms</label>
+                                <input type="number" id="bathrooms" name="bathrooms" min="1" required placeholder="e.g. 2">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="age"><i class="fa-solid fa-calendar-days"></i> House Age (years)</label>
+                                <input type="number" id="age" name="age" min="0" required placeholder="e.g. 10">
+                            </div>
+                        </div>
+                        
+                        <div id="error-container" class="alert alert-danger hidden">
+                            <i class="fa-solid fa-circle-exclamation"></i> <span id="error-message"></span>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="reset" class="btn btn-outline" id="reset-btn">Reset</button>
+                            <button type="submit" class="btn btn-primary" id="predict-btn">
+                                <span>Predict Price</span> <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 4. RESULT SECTION -->
+                <div class="glass-card result-card hidden" id="result-card">
+                    <div class="result-header">
+                        <h3>Estimated Property Value (INR)</h3>
+                        <div class="category-badge" id="price-category">Premium</div>
+                    </div>
+                    
+                    <div class="price-display">
+                        <span class="currency">₹</span>
+                        <span id="price-result">0</span>
+                    </div>
+                    
+                    <div class="input-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Area</span>
+                            <span class="summary-value" id="summary-area">0 sq ft</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Bedrooms</span>
+                            <span class="summary-value" id="summary-bedrooms">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Bathrooms</span>
+                            <span class="summary-value" id="summary-bathrooms">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Age</span>
+                            <span class="summary-value" id="summary-age">0 yrs</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-block" id="new-prediction-btn">Make Another Prediction</button>
+                </div>
+
+                <!-- 8. RECENT PREDICTIONS -->
+                <div class="glass-card history-card">
+                    <div class="history-header">
+                        <h3>Recent Predictions</h3>
+                        <button class="btn-text" id="clear-history-btn">Clear History</button>
+                    </div>
+                    <ul class="history-list" id="history-list">
+                        <!-- History items will be injected here -->
+                        <li class="empty-history">No recent predictions.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. QUICK INSIGHTS -->
+    <section class="insights">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Quick Insights</h2>
+                <p>Understanding the factors that influence your property's value.</p>
+            </div>
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <div class="insight-icon"><i class="fa-solid fa-chart-area"></i></div>
+                    <h4>Area Impact</h4>
+                    <p>Larger area generally increases the price significantly, serving as the primary factor in valuation.</p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon"><i class="fa-solid fa-bed"></i></div>
+                    <h4>Room Count</h4>
+                    <p>More bedrooms and bathrooms positively affect property value, though returns diminish after a certain point.</p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <h4>Location Factor</h4>
+                    <p>Location is a critical factor in real estate, but is excluded in this simplified baseline model.</p>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-icon"><i class="fa-solid fa-calculator"></i></div>
+                    <h4>Estimation Only</h4>
+                    <p>This prediction is a statistical estimate. Real market values fluctuate based on current economic conditions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. HOW IT WORKS SECTION -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>How It Works</h2>
+                <p>A simple linear regression approach to predict property prices.</p>
+            </div>
+            
+            <div class="workflow-diagram">
+                <div class="workflow-step">
+                    <div class="step-icon"><i class="fa-solid fa-keyboard"></i></div>
+                    <h4>User Input</h4>
+                    <p>You provide property details</p>
+                </div>
+                <div class="workflow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="workflow-step">
+                    <div class="step-icon"><i class="fa-solid fa-gears"></i></div>
+                    <h4>Data Processing</h4>
+                    <p>Data formatted for AI</p>
+                </div>
+                <div class="workflow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="workflow-step">
+                    <div class="step-icon"><i class="fa-solid fa-brain"></i></div>
+                    <h4>Linear Regression</h4>
+                    <p>Model finds patterns</p>
+                </div>
+                <div class="workflow-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="workflow-step highlight-step">
+                    <div class="step-icon"><i class="fa-solid fa-house-circle-check"></i></div>
+                    <h4>Predicted Price</h4>
+                    <p>Estimated value returned</p>
+                </div>
+            </div>
+            
+            <div class="explanation-box">
+                <h3>What is Linear Regression?</h3>
+                <p>Linear Regression is a fundamental machine learning algorithm that models the relationship between a dependent variable (like House Price) and one or more independent variables (like Area, Bedrooms). It draws a "line of best fit" through historical data points, allowing it to predict prices for new, unseen houses by looking at where they fall on that line.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. ABOUT / MODEL SECTION -->
+    <section id="about" class="about">
+        <div class="section-container">
+            <div class="about-content glass-card">
+                <div class="about-text">
+                    <h2>About the Technology Stack</h2>
+                    <p>This application was built to demonstrate a simple end-to-end Machine Learning pipeline, connecting a trained predictive model to a modern web interface.</p>
+                    <ul class="tech-stack-list">
+                        <li><strong><i class="fa-solid fa-microchip"></i> Algorithm:</strong> Linear Regression</li>
+                        <li><strong><i class="fa-brands fa-python"></i> Framework:</strong> Python & Flask</li>
+                        <li><strong><i class="fa-solid fa-cubes"></i> Library:</strong> Scikit-learn, Pandas, Numpy</li>
+                        <li><strong><i class="fa-brands fa-html5"></i> Frontend:</strong> HTML5, CSS3, Vanilla JS</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <i class="fa-solid fa-code tech-icon"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <i class="fa-solid fa-house-chimney-window"></i> HousePrice <span>AI</span>
+            </div>
+            <p>Machine Learning Based House Price Prediction</p>
+            <div class="footer-links">
+                <a href="#hero">Home</a>
+                <a href="#predictor">Predictor</a>
+                <a href="#about">About</a>
+            </div>
+            <div class="copyright">
+                &copy; <script>document.write(new Date().getFullYear())</script> HousePrice AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
